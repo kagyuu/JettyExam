@@ -1,7 +1,5 @@
 package com.example.jetty;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -34,9 +32,9 @@ public class MyServer implements Runnable {
     @Setter(AccessLevel.NONE)
     private Server server;
 
-    private int port = 8080;
+    private int port;
 
-    private String shutdownToken = "imadmin";
+    private String shutdownToken;
 
     @Override
     public void run() {
