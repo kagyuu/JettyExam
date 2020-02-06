@@ -5,7 +5,8 @@ buildscript {
   ]
   ext.versions = [
       'jetty': '9.4.25.v20191220',
-      'jersey': '2.30'
+      'jersey': '2.30',
+      'derby': '10.15.1.3'
   ]
 }
 
@@ -13,6 +14,14 @@ plugins {
     // check library versions
     // $ ./gradlew dependencyUpdates
   id "com.github.ben-manes.versions" version "0.27.0"
+  id "com.github.johnrengelman.shadow" version "4.0.4"
+  id 'java'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class" : "app.Main"
+    }
 }
 
 group 'com.example'
@@ -40,6 +49,7 @@ dependencies {
     
     // The Jetty Web Server.
     compile "org.eclipse.jetty:jetty-servlet:${versions.jetty}"
+    compile "org.eclipse.jetty:jetty-webapp:${versions.jetty}"
     
     // JAX-RS (REST API)
     compile "org.glassfish.jersey.core:jersey-server:${versions.jersey}"
@@ -54,8 +64,13 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.2.3'
     
     // JPA (Database)
-    compile 'org.eclipse.persistence:eclipselink:2.7.5'
-    compile 'org.apache.derby:derby:10.15.1.3'
+    compile 'org.eclipse.persistence:eclipselink:2.7.6'
+    compile "org.apache.derby:derby:${versions.derby}"
+    compile "org.apache.derby:derbytools:${versions.derby}"
+    compile "org.apache.derby:derbyshared:${versions.derby}"
+    
+    // CDI
+    compile 'org.jboss.weld.servlet:weld-servlet-core:3.1.3.Final'
     
     // Lombok (Getter/Setter)
     compileOnly 'org.projectlombok:lombok:1.18.10'

@@ -17,6 +17,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+
 import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
 
 /**
@@ -48,8 +49,11 @@ public class MyServer implements Runnable {
         servletHolder.setInitOrder(0);
         servletHolder.setInitParameter(
             "jersey.config.server.provider.packages",
-            MyServer.class.getPackageName() + ".resources"
+            "com.example.jetty.resources"
         );
+        
+        servletContextHandler.addEventListener(new org.eclipse.jetty.servlet.DecoratingListener());
+        servletContextHandler.addEventListener(new org.jboss.weld.environment.servlet.Listener());
 
         // Max Upload Size
         servletContextHandler.setMaxFormContentSize(1024 * 1024 * 1024);
@@ -83,7 +87,7 @@ public class MyServer implements Runnable {
         handlerList.addHandler(resourceHandler);
         // dynamic contents (REST)
         handlerList.addHandler(servletContextHandler);
-
+                        
         // -- Server
         server = new Server(port);
 

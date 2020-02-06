@@ -1,5 +1,8 @@
 package com.example.jetty;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -94,5 +97,10 @@ public class Main {
         });
             
         Runtime.getRuntime().addShutdownHook(sh);
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JettyExamPU");
+        EntityManager em = emf.createEntityManager();
+        em.close();
+        emf.close();
     }
 }
