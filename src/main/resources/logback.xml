@@ -44,7 +44,7 @@
         <appender-ref ref="STDOUT" />
     </root>
     
-<!--    <logger name="com.fujitsu.wafullexam" level="DEBUG">
+<!--    <logger name="com.example.jetty" level="DEBUG">
         <appender-ref ref="STDOUT" />
-    </logger>    -->
+    </logger>-->
 </configuration>

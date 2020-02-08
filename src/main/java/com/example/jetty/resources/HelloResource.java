@@ -1,6 +1,6 @@
 package com.example.jetty.resources;
 
-import com.example.jetty.session.HelloSession;
+import com.example.jetty.logic.HelloService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HelloResource {
 
     @Inject
-    private HelloSession session;
+    private HelloService service;
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -29,7 +29,7 @@ public class HelloResource {
     public List<HelloBean> read(@PathParam("id") String id) {
         log.info("Get Employee {}", id);
         List<HelloBean> resultList = new ArrayList<>();
-        resultList.add(new HelloBean(id));
+        resultList.add(new HelloBean(service.hello() + id));
         return resultList;
     }
     
@@ -39,7 +39,7 @@ public class HelloResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public HelloBean update(@PathParam("id") String id, HelloBean newEmployee) {
         log.info("Update Employee {}", id);
-        return new HelloBean(id);
+        return new HelloBean(service.hello() + id);
     }
     
     @DELETE

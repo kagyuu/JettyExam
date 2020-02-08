@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * @author hondou.atsushi
+ * @author atsushi.hondoh
  */
 @Data
 @NoArgsConstructor

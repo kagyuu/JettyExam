@@ -17,8 +17,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-
 import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  * Jetty Server.
@@ -45,15 +45,11 @@ public class MyServer implements Runnable {
 
         // -- The handler handls dynamic(REST) contents.
         // Set Jersey ServletContainer
-        ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/api/*");
+        ResourceConfig resourceConfig = new MyResourceConfig();
+        ServletHolder servletHolder = new ServletHolder(new ServletContainer(resourceConfig));
         servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter(
-            "jersey.config.server.provider.packages",
-            "com.example.jetty.resources"
-        );
         
-        servletContextHandler.addEventListener(new org.eclipse.jetty.servlet.DecoratingListener());
-        servletContextHandler.addEventListener(new org.jboss.weld.environment.servlet.Listener());
+        servletContextHandler.addServlet(servletHolder, "/api/*");
 
         // Max Upload Size
         servletContextHandler.setMaxFormContentSize(1024 * 1024 * 1024);
@@ -87,7 +83,7 @@ public class MyServer implements Runnable {
         handlerList.addHandler(resourceHandler);
         // dynamic contents (REST)
         handlerList.addHandler(servletContextHandler);
-                        
+
         // -- Server
         server = new Server(port);
 

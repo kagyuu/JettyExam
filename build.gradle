@@ -51,7 +51,7 @@ dependencies {
     compile "org.eclipse.jetty:jetty-servlet:${versions.jetty}"
     compile "org.eclipse.jetty:jetty-webapp:${versions.jetty}"
     
-    // JAX-RS (REST API)
+    // JAX-RS (REST API), CDI
     compile "org.glassfish.jersey.core:jersey-server:${versions.jersey}"
     compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${versions.jersey}"
     compile ("org.glassfish.jersey.containers:jersey-container-jetty-http:${versions.jersey}") {
@@ -68,13 +68,14 @@ dependencies {
     compile "org.apache.derby:derby:${versions.derby}"
     compile "org.apache.derby:derbytools:${versions.derby}"
     compile "org.apache.derby:derbyshared:${versions.derby}"
-    
-    // CDI
-    compile 'org.jboss.weld.servlet:weld-servlet-core:3.1.3.Final'
-    
+        
     // Lombok (Getter/Setter)
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    
+    // Lookup classes by it's annotation
+    compile 'io.github.classgraph:classgraph:4.8.61'
+
     
     // JEP 320: Remove the Java EE and CORBA Modules (from JavaSE11)
     // http://openjdk.java.net/jeps/320

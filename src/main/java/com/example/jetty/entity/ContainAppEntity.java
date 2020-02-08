@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.jetty.entity;
 
 import java.io.Serializable;
@@ -16,8 +11,17 @@ import javax.persistence.Version;
 import lombok.Data;
 
 /**
- *
- * @author hondou.atsushi
+ * The connector object between AppBinary and Resource.
+ * <pre>
+ * AppBinary *--1 ContainAppEntity 1--* Resource
+ * </pre>
+ * <ul>
+ * <li>Many AppBinary share 1 ContainAppEntity.</li>
+ * <li>Many Resource share 1 ContainAppEntity.</li>
+ * <li>1 Resource relates to 1 AppBinary.</li>
+ * <li>1 AppBinary relates to 1 Resource.</li>
+ * </ul>
+ * @author atsushi.hondoh
  */
 @Data
 @Entity
