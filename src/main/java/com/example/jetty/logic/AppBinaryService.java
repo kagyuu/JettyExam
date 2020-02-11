@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,10 +37,10 @@ public class AppBinaryService implements Serializable {
         
         String version = new SimpleDateFormat("yyyyMMdd").format(new Date());
         
-        Query query = em.createNamedQuery("AppBinaryEntity.maxBranchNo");
+        TypedQuery<Integer> query = em.createNamedQuery("AppBinaryEntity.maxBranchNo", Integer.class);
         query.setParameter("name", appBinaryEntity.getName());
         query.setParameter("version", version);
-        Integer branchNo = (Integer) query.getSingleResult();
+        Integer branchNo = query.getSingleResult();
         
         appBinaryEntity.setVersion(version);
         appBinaryEntity.setBranchNo(null == branchNo ? 0 : branchNo + 1);
@@ -58,7 +58,7 @@ public class AppBinaryService implements Serializable {
     }
     
     public List<AppBinaryEntity> findByName(String name) throws Exception {
-        Query query = em.createNamedQuery("AppBinaryEntity.findByName");
+        TypedQuery<AppBinaryEntity> query = em.createNamedQuery("AppBinaryEntity.findByName", AppBinaryEntity.class);
         query.setParameter("name", name);
         List<AppBinaryEntity> resultList = query.getResultList();
                 
@@ -66,7 +66,7 @@ public class AppBinaryService implements Serializable {
     }
     
     public List<AppBinaryEntity> findAll() throws Exception {
-        Query query = em.createNamedQuery("AppBinaryEntity.findAll");
+        TypedQuery<AppBinaryEntity> query = em.createNamedQuery("AppBinaryEntity.findAll", AppBinaryEntity.class);
         List<AppBinaryEntity> resultList = query.setMaxResults(1000).getResultList();
         
         return resultList;

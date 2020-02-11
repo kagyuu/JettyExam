@@ -31,6 +31,7 @@ public class MyInterceptorService implements InterceptionService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<MethodInterceptor> getMethodInterceptors(Method method) {
         List<MethodInterceptor> interceptors = new ArrayList<>();
         Class clazz = method.getDeclaringClass();

@@ -24,6 +24,7 @@ import org.jvnet.hk2.annotations.Service;
 @Slf4j
 public class MyResourceConfig extends ResourceConfig {
 
+    @SuppressWarnings("unchecked")
     public MyResourceConfig() {
         // Jersey's REST-API classes.
         packages("jersey.config.server.provider.packages", AppBinaryResource.class.getPackageName());

@@ -1,7 +1,8 @@
 buildscript {
   ext.buildConfig = [
       'compileSdk': 11,
-      'targetSdk': 11
+      'targetSdk': 11,
+      'main': 'com.example.jetty.Main'
   ]
   ext.versions = [
       'jetty': '9.4.25.v20191220',
@@ -20,7 +21,7 @@ plugins {
 
 jar {
     manifest {
-        attributes "Main-Class" : "com.example.jetty.Main"
+        attributes "Main-Class" : "${buildConfig.main}"
     }
 }
 
@@ -30,14 +31,17 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
-
 //apply plugin: 'war' //
-
 
 sourceCompatibility = "${buildConfig.compileSdk}" // -source
 targetCompatibility = "${buildConfig.targetSdk}" // -target
 
-mainClassName = 'com.example.jetty.Main'
+mainClassName = "${buildConfig.main}"
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint:unchecked'
+}
 
 repositories {
     jcenter()
