@@ -20,7 +20,7 @@ plugins {
 
 jar {
     manifest {
-        attributes "Main-Class" : "app.Main"
+        attributes "Main-Class" : "com.example.jetty.Main"
     }
 }
 
