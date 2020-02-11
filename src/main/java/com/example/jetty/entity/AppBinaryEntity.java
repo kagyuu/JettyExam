@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import lombok.Data;
@@ -18,6 +20,11 @@ import lombok.Data;
  */
 @Data
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "AppBinaryEntity.maxBranchNo", query = "SELECT max(o.branchNo) FROM AppBinaryEntity o WHERE o.name = :name AND o.version = :version"),
+    @NamedQuery(name = "AppBinaryEntity.findByName", query = "SELECT o FROM AppBinaryEntity o WHERE o.name = :name AND o.enabled = true ORDER BY o.id DESC"),
+    @NamedQuery(name = "AppBinaryEntity.findAll", query = "SELECT o FROM AppBinaryEntity o ORDER BY o.id DESC"),
+})
 public class AppBinaryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

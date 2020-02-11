@@ -75,7 +75,6 @@ dependencies {
     
     // Lookup classes by it's annotation
     compile 'io.github.classgraph:classgraph:4.8.61'
-
     
     // JEP 320: Remove the Java EE and CORBA Modules (from JavaSE11)
     // http://openjdk.java.net/jeps/320

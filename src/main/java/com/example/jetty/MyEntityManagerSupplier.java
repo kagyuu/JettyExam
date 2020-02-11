@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.glassfish.hk2.api.Factory;
+import org.glassfish.hk2.api.PerLookup;
 import org.jvnet.hk2.annotations.Service;
 
 /**
@@ -19,12 +20,13 @@ import org.jvnet.hk2.annotations.Service;
  * cf. https://jersey.github.io/documentation/latest/user-guide.html#mig-2.27-injection-manager
  * </p>
  * <p>
- * Don't annotate this class by @Singleton unless get() or provide() is called only one time, in
- * other words to avoid all "@Inject EntityManager em" are same object. 
+ * I know @RequestScoperd looks like suitable. But Jersey/HK2 don't support @Inject
+ * in Interceprtor. I have to manage the instance of the em by own hand.
  * </p>
  * @author atsushi.hondoh
  */
 @Service
+@PerLookup
 public class MyEntityManagerSupplier implements Factory<EntityManager>, Supplier<EntityManager> {
     
     /**
@@ -33,25 +35,49 @@ public class MyEntityManagerSupplier implements Factory<EntityManager>, Supplier
      * not thread-safe.
      * cf. https://docs.oracle.com/cd/E19798-01/821-1841/bnbqy/index.html
      */
-    private static final EntityManagerFactory EMFACTORY = Persistence.createEntityManagerFactory("JettyExamPU");
+    private static final EntityManagerFactory EM_FACTORY = Persistence.createEntityManagerFactory("JettyExamPU");
+    
+    /**
+     * ThreadLocal Entity Manager Storage.
+     */
+    private static final ThreadLocal<EntityManager> EM_STORAGE = new ThreadLocal<>();
 
+    /**
+     * Get ThreadLocal Entity Manager.
+     * To transaction management automatically, We made MyTransactionInterceptor.
+     * But Jersey/HK2 don't support injection in interceptors. So We have to 
+     * manage the EntityManager by ThreadLocal.
+     * @return ThreadLocal Entity Manager
+     */
+    public static EntityManager getThreadLocalEntityManager() {
+        EntityManager em = EM_STORAGE.get();
+        if (null == em) {
+            em = EM_FACTORY.createEntityManager();
+            EM_STORAGE.set(em);
+        }
+        return em;
+    }
+    
+    /**
+     * Remove ThreadLocal Entity Manager.
+     */
+    public static void removeThreadLocalEntityManager(){
+        EM_STORAGE.remove();
+    }
+    
+    
     @Override
     public EntityManager provide() {
-        return EMFACTORY.createEntityManager();
+        return getThreadLocalEntityManager();
     }
 
     @Override
     public void dispose(EntityManager em) {
-        try {
-            em.close();
-        } catch (Throwable th) {
-            // do nothing.
-            th = null;
-        }
+        // do nothing.
     }
 
     @Override
     public EntityManager get() {
-        return provide();
+        return getThreadLocalEntityManager();
     }
 }

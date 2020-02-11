@@ -41,7 +41,7 @@ public class Main {
 
         options.addOption(srcOption);
 
-        // Command Option "t" (port number)
+        // Command Option "t" (shutport token)
         Option tokenOption = Option.builder(ARG_SHUTDOWN_TOKEN)
                 .longOpt("token")
                 .hasArg()

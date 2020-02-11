@@ -1,15 +1,18 @@
 package com.example.jetty;
 
-import com.example.jetty.resources.HelloResource;
+import com.example.jetty.resources.AppBinaryResource;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.function.Supplier;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.hk2.api.Factory;
+import org.glassfish.hk2.api.Immediate;
+import org.glassfish.hk2.api.InterceptionService;
+import org.glassfish.hk2.api.PerLookup;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.jvnet.hk2.annotations.Service;
 
@@ -23,7 +26,7 @@ public class MyResourceConfig extends ResourceConfig {
 
     public MyResourceConfig() {
         // Jersey's REST-API classes.
-        packages("jersey.config.server.provider.packages", HelloResource.class.getPackageName());
+        packages("jersey.config.server.provider.packages", AppBinaryResource.class.getPackageName());
 
         // hk2's @Inject classes.
         // I wrote automatically lookup thease classes that have @Service during runtime.
@@ -40,36 +43,34 @@ public class MyResourceConfig extends ResourceConfig {
                     scanResult.getClassesWithAnnotation(Service.class.getCanonicalName()).forEach(clazzInfo -> {
                         Class clazz = clazzInfo.loadClass();
                         try {
-                            Annotation scopeAnnotation = clazz.getAnnotation(Singleton.class);
-
+                           
+                            // Scope Annotations
+                            // @PerLookup     : @Inject indicates different instance for every injection.
+                            // @Singleton     : @Inject indicates the same instance during the app during start to end.
+                            // @Immediate     : The scope is same as the @Singleton. @Immediate is instantiateed when 
+                            //                  the app startup while @Singleton is do when called.
+                            // @RequestScoped : @Inject indicates the same instance during a request to response.
+                            Class scope = PerLookup.class; // default scope
+                            for (Class candidate : new Class[]{PerLookup.class, Singleton.class, Immediate.class, RequestScoped.class}) {
+                                scope = (null == clazz.getAnnotation(candidate)) ? scope : candidate;
+                            }
+                            
                             if (clazzInfo.implementsInterface(Supplier.class.getCanonicalName())) {
                                 Method getMethod = clazz.getMethod("get");
                                 Class toClazz = getMethod.getReturnType();
-                                if (null == scopeAnnotation) {
-                                    log.info("register factory {} that provides {}.", clazz.getName(), toClazz.getName());
-                                    bindFactory(clazz).to(toClazz);
-                                } else {
-                                    log.info("register factory {} that provides {}. scope {}.", clazz.getName(), toClazz.getName(), scopeAnnotation);
-                                    bindFactory(clazz).to(toClazz).in(scopeAnnotation);
-                                }
+                                log.info("register factory {} that provides {}. scope {}.", clazz.getName(), toClazz.getName(), scope.getName());
+                                bindFactory(clazz).to(toClazz).in(scope);
                             } else if (clazzInfo.implementsInterface(Factory.class.getCanonicalName())) {
                                 Method provideMethod = clazz.getMethod("provide");
                                 Class toClazz = provideMethod.getReturnType();
-                                if (null == scopeAnnotation) {
-                                    log.info("register factory {} that provides {}.", clazz.getName(), toClazz.getName());
-                                    bindFactory(clazz).to(toClazz);
-                                } else {
-                                    log.info("register factory {} that provides {}. scope {}.", clazz.getName(), toClazz.getName(), scopeAnnotation);
-                                    bindFactory(clazz).to(toClazz).in(scopeAnnotation);
-                                }
+                                log.info("register factory {} that provides {}. scope {}.", clazz.getName(), toClazz.getName(), scope.getName());
+                                bindFactory(clazz).to(toClazz).in(scope);
+                            } else if (clazzInfo.implementsInterface(InterceptionService.class.getCanonicalName())) {
+                                log.info("register intercepter {} . scope {}.", clazz.getName(), scope.getName());
+                                bind(clazz).to(InterceptionService.class).in(scope);
                             } else {
-                                if (null == scopeAnnotation) {
-                                    log.info("register service {}.", clazz.getName());
-                                    bindAsContract(clazz);
-                                } else {
-                                    log.info("register service {}. scope {}.", clazz.getName(), scopeAnnotation);
-                                    bindAsContract(clazz).in(scopeAnnotation);
-                                }
+                                log.info("register service {}. scope {}.", clazz.getName(), scope.getName());
+                                bindAsContract(clazz).in(scope);
                             }
 
                         } catch (NoSuchMethodException | SecurityException ex) {
