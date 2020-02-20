@@ -27,7 +27,10 @@ public class MyResourceConfig extends ResourceConfig {
     @SuppressWarnings("unchecked")
     public MyResourceConfig() {
         // Jersey's REST-API classes.
-        packages("jersey.config.server.provider.packages", AppBinaryResource.class.getPackageName());
+        packages(
+            "jersey.config.server.provider.packages"
+            , getPackageName(AppBinaryResource.class)
+        );
 
         // hk2's @Inject classes.
         // I wrote automatically lookup thease classes that have @Service during runtime.
@@ -38,7 +41,7 @@ public class MyResourceConfig extends ResourceConfig {
             protected void configure() {
                 try ( ScanResult scanResult = new ClassGraph()
                         .enableAllInfo()
-                        .whitelistPackages(this.getClass().getPackageName())
+                        .whitelistPackages(getPackageName(this.getClass()))
                         .scan()) {
 
                     scanResult.getClassesWithAnnotation(Service.class.getCanonicalName()).forEach(clazzInfo -> {
@@ -81,5 +84,15 @@ public class MyResourceConfig extends ResourceConfig {
                 }
             }
         });
+    }
+    
+    /**
+     * Get package name of clazz.
+     * The "class#getPackageName()" is not in Java8 environment.
+     * @param clazz class
+     * @return package name
+     */
+    private String getPackageName(Class clazz) {
+        return clazz.getName().replace("." + clazz.getSimpleName(), "");
     }
 }

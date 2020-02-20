@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class AppBinaryEntity implements Serializable {
     @Version
     private Timestamp lastupdate = null;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "app")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "app", fetch = FetchType.LAZY)
     private List<ContainAppEntity> containedBy;
 
     @Override

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="JettyExamPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.example.jetty.entity.AppBinaryEntity</class>
+    <class>com.example.jetty.entity.ResourceEntity</class>
+    <class>com.example.jetty.entity.ContainAppEntity</class>
+    <shared-cache-mode>ALL</shared-cache-mode>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby:/tmp/javadb/sample1;create=true"/>
+      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <!--
+      # Create tables from Entity Beans.
+      1.create-or-extend-tables
+      2.create-tables
+      3.drop
+      4.drop-and-create-tables
+      5.none
+      -->
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <!--
+      # Create DDLs when {create|drop|drop-and-create|none}.
+      -->
+      <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.scripts.create-target" value="/tmp/create-target.sql"/>
+      <property name="javax.persistence.schema-generation.scripts.drop-target" value="/tmp/drop-target.sql"/>
+      <!--
+      # Execute SQL
+      -->
+      <property name="javax.persistence.sql-load-script-source" value="META-INF/load-data.sql"/>
+      <!-- OFF,SEVERE,WARNING,INFO,CONFIG,FINE,FINER,FINEST,ALL -->
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.logging.timestamp" value="false"/>
+      <property name="eclipselink.logging.session" value="false"/>
+      <property name="eclipselink.logging.thread" value="false"/>
+    </properties>
+  </persistence-unit>
+</persistence>

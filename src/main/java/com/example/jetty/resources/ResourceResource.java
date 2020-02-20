@@ -1,7 +1,7 @@
 package com.example.jetty.resources;
 
 import com.example.jetty.entity.AppBinaryEntity;
-import com.example.jetty.logic.AppBinaryService;
+import com.example.jetty.entity.ResourceEntity;
 import com.example.jetty.logic.ResouceService;
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -21,17 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Path("/app")
-public class AppBinaryResource {
+public class ResourceResource {
 
     @Inject
-    private AppBinaryService service;
+    private ResouceService service;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AppBinaryEntity create(Map<String, Object> inJSON) {
+    public ResourceEntity create(Map<String, Object> inJSON) {
         try {
-            log.info("Create Application Binary");
+            log.info("Create Resource");
             return service.create(inJSON);
         } catch (Exception ex) {
             log.error("ERROR", ex);
@@ -42,10 +42,10 @@ public class AppBinaryResource {
     @GET
     @Path("/findById/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AppBinaryEntity findById(@PathParam("id") Long id) {
+    public ResourceEntity findById(@PathParam("id") Long id) {
         try {
-            log.info("Find Application Binary");
-            AppBinaryEntity entity = service.findById(id);
+            log.info("Find Resource");
+            ResourceEntity entity = service.findById(id);
             if (null == entity) {
                 throw new WebApplicationException(HttpURLConnection.HTTP_NOT_FOUND);
             }
@@ -57,11 +57,28 @@ public class AppBinaryResource {
     }
     
     @GET
+    @Path("/findContainsAppBinary/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<AppBinaryEntity> findContainsAppBinaryById(@PathParam("id") Long id) {
+        try {
+            log.info("Find Resource");
+            List<AppBinaryEntity> appBinaryArray = service.findContainsAppBinaryById(id);
+            if (null == appBinaryArray) {
+                throw new WebApplicationException(HttpURLConnection.HTTP_NOT_FOUND);
+            }
+            return appBinaryArray;
+        } catch (Exception ex) {
+            log.error("ERROR", ex);
+            throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+    
+    @GET
     @Path("/findByName/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AppBinaryEntity> findByName(@PathParam("name") String name) {
+    public List<ResourceEntity> findByName(@PathParam("name") String name) {
         try {
-            log.info("Find Application Binary");
+            log.info("Find Resource");
             return service.findByName(name);
         } catch (Exception ex) {
             log.error("ERROR", ex);
@@ -72,9 +89,9 @@ public class AppBinaryResource {
     @GET
     @Path("/findAll")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AppBinaryEntity> findAll() {
+    public List<ResourceEntity> findAll() {
         try {
-            log.info("Find Application Binary");
+            log.info("Find Resource");
             return service.findAll();
         } catch (Exception ex) {
             log.error("ERROR", ex);
@@ -86,9 +103,9 @@ public class AppBinaryResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AppBinaryEntity update(@PathParam("id") Long id, Map<String, Object> inJSON) {
+    public ResourceEntity update(@PathParam("id") Long id, Map<String, Object> inJSON) {
         try {
-            log.info("Update Application Binary");
+            log.info("Update Resource");
             return service.update(id, inJSON);
         } catch (Exception ex) {
             log.error("ERROR", ex);
@@ -99,9 +116,9 @@ public class AppBinaryResource {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AppBinaryEntity delete(@PathParam("id") Long id) {
+    public ResourceEntity delete(@PathParam("id") Long id) {
         try {
-            log.info("Delete Application Binary");
+            log.info("Delete Resource");
             return service.delete(id);
         } catch (Exception ex) {
             log.error("ERROR", ex);

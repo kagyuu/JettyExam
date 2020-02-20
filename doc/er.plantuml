@@ -1,0 +1,40 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "AppBinaryEntity" as e01 {
+  *id : Long <<GenerationType.AUTO>>
+  --
+  version : text
+  branchNo : text
+  name : text
+  enabled : boolean
+  lastupdate : DateTime <<Version>>
+}
+
+entity "ResourceEntity" as e02 {
+  *id : Long <<GenerationType.AUTO>>
+  --
+  version : text
+  branchNo : text
+  name : text
+  enabled : boolean
+  lastupdate : DateTime <<Version>>
+}
+
+entity "ContainAppEntity" as e03 {
+  *id : Long <<GenerationType.AUTO>>
+  --
+  *app : Long <<FK:AppBinaryEntity#id>>
+  *resource: Long <<FK:ResourceEntity#id>>
+  lastupdate : DateTime <<Version>>
+}
+
+e01 ||..o{ e03
+e02 ||..o{ e03
+
+@enduml

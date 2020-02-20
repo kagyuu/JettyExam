@@ -6,9 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import lombok.Data;
@@ -19,6 +22,11 @@ import lombok.Data;
  */
 @Data
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "ResourceEntity.maxBranchNo", query = "SELECT max(o.branchNo) FROM ResourceEntity o WHERE o.name = :name AND o.version = :version"),
+    @NamedQuery(name = "ResourceEntity.findByName", query = "SELECT o FROM ResourceEntity o WHERE o.name = :name AND o.enabled = true ORDER BY o.id DESC"),
+    @NamedQuery(name = "ResourceEntity.findAll", query = "SELECT o FROM ResourceEntity o ORDER BY o.id DESC"),
+})
 public class ResourceEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,7 +49,7 @@ public class ResourceEntity implements Serializable {
     @Version
     private Timestamp lastupdate = null;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource", fetch = FetchType.LAZY)
     private List<ContainAppEntity> contains;
 
     @Override
