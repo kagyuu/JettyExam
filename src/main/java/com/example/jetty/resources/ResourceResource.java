@@ -2,7 +2,7 @@ package com.example.jetty.resources;
 
 import com.example.jetty.entity.AppBinaryEntity;
 import com.example.jetty.entity.ResourceEntity;
-import com.example.jetty.logic.ResouceService;
+import com.example.jetty.logic.ResourceService;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ResourceResource {
 
     @Inject
-    private ResouceService service;
+    private ResourceService service;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

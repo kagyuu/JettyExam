@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Resource Entity.
@@ -74,7 +75,7 @@ public class ResourceEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.example.jetty.entity.ResourceEntity[ id=" + id + " ]";
+        // return "com.example.jetty.entity.ResourceEntity[ id=" + id + " ]";
+        return ToStringBuilder.reflectionToString(this);
     }
-    
 }

@@ -2,7 +2,7 @@ package com.example.jetty.resources;
 
 import com.example.jetty.entity.AppBinaryEntity;
 import com.example.jetty.logic.AppBinaryService;
-import com.example.jetty.logic.ResouceService;
+import com.example.jetty.logic.ResourceService;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;

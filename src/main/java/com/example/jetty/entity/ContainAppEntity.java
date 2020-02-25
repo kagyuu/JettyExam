@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * The connector object between AppBinary and Resource.
@@ -65,7 +66,8 @@ public class ContainAppEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.example.jetty.entity.ContainAppEntity[ id=" + id + " ]";
+        //return "com.example.jetty.entity.ContainAppEntity[ id=" + id + " ]";
+        return ToStringBuilder.reflectionToString(this);
     }
     
 }

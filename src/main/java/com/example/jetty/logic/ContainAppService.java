@@ -34,8 +34,21 @@ public class ContainAppService {
         containAppEntity.setResource(resourceEntity);
         containAppEntity.setApp(appBinaryeEntity);
         em.persist(containAppEntity);
+
+        // Trap?
+        // We have to make relations not only from added new entity (@OneToMany) ,
+        // but also from parent entities (@ManyToOne).
+        resourceEntity.getContains().add(containAppEntity);
+        appBinaryeEntity.getContainedBy().add(containAppEntity);
+        em.merge(resourceEntity);
+        em.merge(appBinaryeEntity);
+        
         em.flush();
         
         return containAppEntity;
-    }    
+    }
+    
+    public ContainAppEntity findById(Long id) {
+        return em.find(ContainAppEntity.class, id);
+    }
 }

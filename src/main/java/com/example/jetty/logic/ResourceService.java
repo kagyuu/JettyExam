@@ -19,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
 
 /**
- * Service Class for ResouceBinaryEntity.
+ * Service Class for ResourceBinaryEntity.
  * @author atsushi.hondoh
  */
 @Slf4j
 @Service
 @Transactional
 @NoArgsConstructor
-public class ResouceService implements Serializable {
+public class ResourceService implements Serializable {
     @Inject
     private EntityManager em;
     

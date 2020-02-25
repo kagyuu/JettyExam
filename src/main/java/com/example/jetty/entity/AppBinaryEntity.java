@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Application Binary Entity.
@@ -69,7 +70,7 @@ public class AppBinaryEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.example.jetty.entity.AppBinaryEntity[ id=" + id + " ]";
+        //return "com.example.jetty.entity.AppBinaryEntity[ id=" + id + " ]";
+        return ToStringBuilder.reflectionToString(this);
     }
-
 }
