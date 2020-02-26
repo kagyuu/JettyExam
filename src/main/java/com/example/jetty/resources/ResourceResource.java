@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Path("/app")
+@Path("/rsc")
 public class ResourceResource {
 
     @Inject

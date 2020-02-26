@@ -81,7 +81,10 @@ public class ContainAppServiceTest {
         ResourceEntity newResource = resourceService.create(resourceMap);
         
         // Connect Resource and App1 (not App2)
-        ContainAppEntity newContains = containAppService.create(newResource.getId(), newAppBinary.getId());
+        Map<String, Object> containAppMap = new HashMap<>();
+        containAppMap.put("resource", newResource.getId());
+        containAppMap.put("app", newAppBinary.getId());
+        ContainAppEntity newContains = containAppService.create(containAppMap);
         em.getTransaction().commit();
         em.getTransaction().begin();
         // Get apps contained by the Resource.

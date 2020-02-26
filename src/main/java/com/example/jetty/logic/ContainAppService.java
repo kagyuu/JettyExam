@@ -4,6 +4,7 @@ import com.example.jetty.MyConst;
 import com.example.jetty.entity.AppBinaryEntity;
 import com.example.jetty.entity.ContainAppEntity;
 import com.example.jetty.entity.ResourceEntity;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -26,7 +27,9 @@ public class ContainAppService {
     @Inject
     private MyConst myconst;
     
-    public ContainAppEntity create(Long resourceId, Long appId) throws Exception {
+    public ContainAppEntity create(Map<String, Object> inJSON) throws Exception {
+        Long resourceId = Long.parseLong(inJSON.get("resource").toString());
+        Long appId = Long.parseLong(inJSON.get("app").toString());
         ResourceEntity resourceEntity = em.find(ResourceEntity.class, resourceId);
         AppBinaryEntity appBinaryeEntity = em.find(AppBinaryEntity.class, appId);
         

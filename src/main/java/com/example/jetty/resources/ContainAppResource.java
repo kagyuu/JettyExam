@@ -3,6 +3,7 @@ package com.example.jetty.resources;
 import com.example.jetty.entity.ContainAppEntity;
 import com.example.jetty.logic.ContainAppService;
 import java.net.HttpURLConnection;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Path("/app")
+@Path("/con")
 public class ContainAppResource {
 
     @Inject
@@ -23,10 +24,10 @@ public class ContainAppResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ContainAppEntity create(@PathParam("resource") Long resourceId, @PathParam("app") Long appId) {
+    public ContainAppEntity create(Map<String, Object> inJSON) {
         try {
-            log.info("Connect Resource and Application Binary");
-            return service.create(resourceId, appId);
+            log.info("Connect Resource and Application Binary ({})", inJSON);
+            return service.create(inJSON);
         } catch (Exception ex) {
             log.error("ERROR", ex);
             throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);

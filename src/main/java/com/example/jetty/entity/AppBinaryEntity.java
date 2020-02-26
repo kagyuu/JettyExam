@@ -1,5 +1,6 @@
 package com.example.jetty.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
@@ -45,6 +46,7 @@ public class AppBinaryEntity implements Serializable {
     @Version
     private Timestamp lastupdate = null;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "app", fetch = FetchType.LAZY)
     private List<ContainAppEntity> containedBy;
 

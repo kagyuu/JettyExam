@@ -41,7 +41,7 @@ public class MyResourceConfig extends ResourceConfig {
             protected void configure() {
                 try ( ScanResult scanResult = new ClassGraph()
                         .enableAllInfo()
-                        .whitelistPackages(getPackageName(this.getClass()))
+                        .whitelistPackages(getPackageName(MyResourceConfig.class))
                         .scan()) {
 
                     scanResult.getClassesWithAnnotation(Service.class.getCanonicalName()).forEach(clazzInfo -> {
