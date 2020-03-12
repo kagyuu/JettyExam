@@ -74,6 +74,7 @@ public class ResourceServiceTest {
         
         Map<String, Object> arg = new HashMap<>();
         arg.put("name","yourapp");
+        arg.put("directory", "product");
         ResourceEntity newEntity = target.create(arg);
         assertThat(newEntity.getName(),is("yourapp"));
         assertThat(newEntity.getVersion(),is(expectVersion));
@@ -94,6 +95,7 @@ public class ResourceServiceTest {
         // Create New Entity
         Map<String, Object> arg1 = new HashMap<>();
         arg1.put("name","myapp");
+        arg1.put("directory", "dev");
         target.create(arg1);
         target.create(arg1);
         ResourceEntity newEntity = target.create(arg1);
@@ -109,7 +111,7 @@ public class ResourceServiceTest {
         target.update(id, arg2);
         
         // Fine Enabled Entity
-        List<ResourceEntity> searchResult = target.findByName("myapp");
+        List<ResourceEntity> searchResult = target.findByName("dev", "myapp");
         assertThat(searchResult.size(),is(1));
         ResourceEntity searchedEntity = searchResult.get(0);
         assertThat(searchedEntity.getName(),is("myapp"));

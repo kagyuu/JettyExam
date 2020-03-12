@@ -19,7 +19,7 @@
       4.drop-and-create-tables
       5.none
       -->
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
       <!--
       # Create DDLs when {create|drop|drop-and-create|none}.
       -->

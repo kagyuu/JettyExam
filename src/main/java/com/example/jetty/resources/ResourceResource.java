@@ -74,12 +74,12 @@ public class ResourceResource {
     }
     
     @GET
-    @Path("/findByName/{name}")
+    @Path("/findByName/{dir}/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ResourceEntity> findByName(@PathParam("name") String name) {
+    public List<ResourceEntity> findByName(@PathParam("dir") String dir, @PathParam("name") String name) {
         try {
             log.info("Find Resource");
-            return service.findByName(name);
+            return service.findByName(dir, name);
         } catch (Exception ex) {
             log.error("ERROR", ex);
             throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);

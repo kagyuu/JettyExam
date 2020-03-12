@@ -43,6 +43,7 @@ public class ResourceService implements Serializable {
         TypedQuery<Integer> query = em.createNamedQuery("ResourceEntity.maxBranchNo", Integer.class);
         query.setParameter("name", resourceEntity.getName());
         query.setParameter("version", version);
+        query.setParameter("directory", resourceEntity.getDirectory());
         Integer branchNo = query.getSingleResult();
         
         resourceEntity.setVersion(version);
@@ -60,9 +61,10 @@ public class ResourceService implements Serializable {
         return resourceEntity;
     }
     
-    public List<ResourceEntity> findByName(String name) throws Exception {
+    public List<ResourceEntity> findByName(String dir, String name) throws Exception {
         TypedQuery<ResourceEntity> query = em.createNamedQuery("ResourceEntity.findByName", ResourceEntity.class);
         query.setParameter("name", name);
+        query.setParameter("directory", dir);
         List<ResourceEntity> resultList = query.getResultList();
                 
         return resultList;
