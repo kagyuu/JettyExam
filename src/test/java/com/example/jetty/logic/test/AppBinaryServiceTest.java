@@ -117,4 +117,20 @@ public class AppBinaryServiceTest {
         assertThat(searchedEntity.getBranchNo(), is(2));
         assertTrue(searchedEntity.isEnabled());
     }
+    
+    @Test
+    public void testListup() throws Exception {
+        Map<String, Object> inJSON = new HashMap<>();
+        inJSON.put("name", "app1");
+        target.create(inJSON);
+        
+        inJSON.put("name", "app2");
+        target.create(inJSON);
+        
+        inJSON.put("name", "app3");
+        target.create(inJSON);
+        
+        List<String> names = target.names();
+        assertThat(names.toString(), is("[app1, app2, app3]"));
+    }
 }

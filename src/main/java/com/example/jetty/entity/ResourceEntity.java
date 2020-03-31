@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     @NamedQuery(name = "ResourceEntity.maxBranchNo", query = "SELECT max(o.branchNo) FROM ResourceEntity o WHERE o.directory = :directory AND o.name = :name AND o.version = :version"),
     @NamedQuery(name = "ResourceEntity.findByName", query = "SELECT o FROM ResourceEntity o WHERE o.name = :name AND o.directory = :directory AND o.enabled = true ORDER BY o.id DESC"),
     @NamedQuery(name = "ResourceEntity.findAll", query = "SELECT o FROM ResourceEntity o ORDER BY o.id DESC"),
+    @NamedQuery(name = "ResourceEntity.names", query = "SELECT new com.example.jetty.entity.ResourceSummary(o.directory, o.name) FROM ResourceEntity o GROUP BY o.directory, o.name")
 })
 public class ResourceEntity implements Serializable {
 

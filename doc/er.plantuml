@@ -21,6 +21,7 @@ entity "ResourceEntity" as e02 {
   --
   version : text
   branchNo : text
+  directory : name
   name : text
   enabled : boolean
   lastupdate : DateTime <<Version>>

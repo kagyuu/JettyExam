@@ -69,6 +69,18 @@ public class AppBinaryResource {
     }
     
     @GET
+    @Path("/names")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> names() {
+        try {
+            return service.names();
+        } catch (Exception ex) {
+            log.error("ERROR", ex);
+            throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+    
+    @GET
     @Path("/findAll")
     @Produces(MediaType.APPLICATION_JSON)
     public List<AppBinaryEntity> findAll() {

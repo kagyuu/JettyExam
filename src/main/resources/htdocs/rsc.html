@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap4-toggle.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/haifu.css" />
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <title>配布管理</title>
+</head>
+
+<body>
+    <header class="sticky-top">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="app.html" class="nav-link">バイナリ版数</a></li>
+            <li class="nav-item"><a href="rsc.html" class="nav-link active">配布資産版数</a></li>
+            <li class="nav-item"><a href="con.html" class="nav-link">関連表示</a></li>
+          </ul>
+    </header>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>環境</th>
+                <th>
+                    名称
+                    <a herf="#"><i class="fas fa-sort-alpha-down" style="color:lightgray;""></i></a>                        
+                </th>
+                <th>版数</th>
+                <th>枝番</th>
+                <th>配布</th>
+                <th>
+                有効
+                <a herf=" #"><i class="fas fa-toggle-on" style="color:lightblue;""></i></i></a>
+                </th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody>
+        <!-- <tr data-bind=" foreach: rscTbl">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr> -->
+        <tr>
+            <td>1</td>
+            <td>it</td>
+            <td>GAXXXX</td>
+            <td>20200401</td>
+            <td>0</td>
+            <td>未</td>
+            <td><input type="checkbox" data-toggle="toggle"></td>
+            <td><button class="btn btn-danger">削除</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>it</td>
+            <td>GAXXXX</td>
+            <td>20200401</td>
+            <td>1</td>
+            <td>2020-04-01 11:25:36 (成功)</td>
+            <td><input type="checkbox" checked data-toggle="toggle"></td>
+            <td><button class="btn btn-danger">削除</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- JavaScriptは、require.jsを使用して読み込む -->
+    <script type="text/javascript" charset="UTF-8" data-main="rsc.js" src="js/require.js"></script>
+</body>
+
+</html>

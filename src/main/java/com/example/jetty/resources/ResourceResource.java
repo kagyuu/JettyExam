@@ -2,6 +2,7 @@ package com.example.jetty.resources;
 
 import com.example.jetty.entity.AppBinaryEntity;
 import com.example.jetty.entity.ResourceEntity;
+import com.example.jetty.entity.ResourceSummary;
 import com.example.jetty.logic.ResourceService;
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -50,6 +51,18 @@ public class ResourceResource {
                 throw new WebApplicationException(HttpURLConnection.HTTP_NOT_FOUND);
             }
             return entity;
+        } catch (Exception ex) {
+            log.error("ERROR", ex);
+            throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+    
+    @GET
+    @Path("/names")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ResourceSummary> names() {
+        try {
+            return service.names();
         } catch (Exception ex) {
             log.error("ERROR", ex);
             throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);
