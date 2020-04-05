@@ -4,8 +4,9 @@ import com.example.jetty.MyConst;
 import com.example.jetty.entity.AppBinaryEntity;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -89,10 +90,22 @@ public class AppBinaryService implements Serializable {
         return appBinaryEntity;
     }
     
-    public List<String> names() {
-        TypedQuery<String> query = em.createNamedQuery("AppBinaryEntity.names", String.class);
-        List<String> resultList = query.getResultList();
-        Collections.sort(resultList);
-        return resultList;
+    public List<AppBinaryEntity> names() throws Exception {
+        TypedQuery<String> nameQuery = em.createNamedQuery("AppBinaryEntity.names", String.class);
+        List<String> nameList = nameQuery.getResultList();
+        Collections.sort(nameList);
+        
+        List<AppBinaryEntity> res = new ArrayList<>();
+        for(String name : nameList) {
+            TypedQuery<AppBinaryEntity> entryQuery = em.createNamedQuery("AppBinaryEntity.findByNameAll", AppBinaryEntity.class);
+            entryQuery.setParameter("name", name);
+            entryQuery.setMaxResults(1);
+            List<AppBinaryEntity> entries = entryQuery.getResultList();
+            if (!entries.isEmpty()) {
+                res.add(entries.get(0));
+            }
+        };
+                
+        return res;
     }
 }

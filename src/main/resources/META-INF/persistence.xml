@@ -7,7 +7,7 @@
     <class>com.example.jetty.entity.ContainAppEntity</class>
     <shared-cache-mode>ALL</shared-cache-mode>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby:/tmp/javadb/sample1;create=true"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby:/home/atsushihondoh/javadb;create=true"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
       <property name="javax.persistence.jdbc.password" value=""/>

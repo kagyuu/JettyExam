@@ -60,7 +60,7 @@ public class ResourceResource {
     @GET
     @Path("/names")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ResourceSummary> names() {
+    public List<ResourceEntity> names() {
         try {
             return service.names();
         } catch (Exception ex) {

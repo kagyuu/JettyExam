@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @NamedQueries({
     @NamedQuery(name = "AppBinaryEntity.maxBranchNo", query = "SELECT max(o.branchNo) FROM AppBinaryEntity o WHERE o.name = :name AND o.version = :version"),
     @NamedQuery(name = "AppBinaryEntity.findByName", query = "SELECT o FROM AppBinaryEntity o WHERE o.name = :name AND o.enabled = true ORDER BY o.id DESC"),
+    @NamedQuery(name = "AppBinaryEntity.findByNameAll", query = "SELECT o FROM AppBinaryEntity o WHERE o.name = :name ORDER BY o.id DESC"),
     @NamedQuery(name = "AppBinaryEntity.findAll", query = "SELECT o FROM AppBinaryEntity o ORDER BY o.id DESC"),
     @NamedQuery(name = "AppBinaryEntity.names", query = "SELECT o.name FROM AppBinaryEntity o GROUP BY o.name")
 })

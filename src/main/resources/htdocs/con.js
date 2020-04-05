@@ -9,12 +9,10 @@ require.config({
     // popper.js 組み込み版 bootstrap
     bootstrap: "bootstrap.bundle.min",
     bootstrap_toggle: "bootstrap4-toggle.min",
-    onepage: "jquery.onepage-scroll.min",
   },
 
   // AMDに対応してないモジュールが依存するライブラリを先に読み込むよう指定する
   shim: {
-    onepage: ["jquery"],
     bootstrap_toggle: ["bootstrap"]
   }
 });
@@ -24,35 +22,10 @@ require([
   "knockout",
   "bootstrap",
   "bootstrap_toggle",
-  "onepage",
   "domReady!"
 ], function($, ko) {
   function ViewModel() {
     var vmdl = this;
-    vmdl.gotoApp = function() {
-        $(".main").moveTo(1);
-    };
-    vmdl.gotoRsc = function() {
-        $(".main").moveTo(2);
-    };
-    vmdl.gotoRel = function() {
-        $(".main").moveTo(3);       
-    }
-
-    vmdl.appTbl = ko.observableArray();
-    vmdl.rscTbl = ko.observableArray();
-    vmdl.conTbl = ko.observableArray();
-  }
-
-  ko.applyBindings(new ViewModel());
-
-  $(".main").onepage_scroll({
-    loop: true, 
-  });
-
-  // $(".main").onepage_scroll() まで、全部のページの内容が見えてしまうので、
-  // onepage_scroll の初期化が終わるまで表示内容を隠しておく
-  $('.main').removeClass('hidden');
 
 //   $.ajax({
 //     url: 'api/app/findAll',
@@ -66,5 +39,5 @@ require([
 //       console.log(errorThrown);
 //       alert('access error');
 //   });
-
+  }
 });

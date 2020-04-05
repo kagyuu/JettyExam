@@ -1,5 +1,6 @@
 package com.example.jetty;
 
+import java.util.ResourceBundle;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -36,6 +37,8 @@ public class MyServer implements Runnable {
     private int port;
 
     private String shutdownToken;
+    
+    private final ResourceBundle RB = ResourceBundle.getBundle("app");    
 
     @Override
     public void run() {
@@ -59,7 +62,11 @@ public class MyServer implements Runnable {
 
         // Where is the static contents?
         // The following setting is "[JAR]/htdocs". You can specify a directory on the file system, like "/opt/htpdcs".
-        String webroot = MyServer.class.getClassLoader().getResource("htdocs").toExternalForm();
+        String webroot = RB.getString("webroot");
+        if (webroot.indexOf("${classpath}") > 0) {
+            String classpathRelative = webroot.replaceAll("${classpath}", "").replaceAll("\\/", "");
+            webroot = MyServer.class.getClassLoader().getResource(classpathRelative).toExternalForm();
+        }
         log.info("Static contetns = {}", webroot);
         resourceHandler.setResourceBase(webroot);
 

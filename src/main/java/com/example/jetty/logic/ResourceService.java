@@ -107,10 +107,22 @@ public class ResourceService implements Serializable {
         return appBinaryEntityArray;
     }
 
-    public List<ResourceSummary> names() {
-        TypedQuery<ResourceSummary> query = em.createNamedQuery("ResourceEntity.names", ResourceSummary.class);
-        List<ResourceSummary> resultList = query.getResultList();
-        Collections.sort(resultList);
-        return resultList;
+    public List<ResourceEntity> names() {        
+        TypedQuery<ResourceSummary> nameQuery = em.createNamedQuery("ResourceEntity.names", ResourceSummary.class);
+        List<ResourceSummary> nameList = nameQuery.getResultList();
+        Collections.sort(nameList);
+        
+        List<ResourceEntity> res = new ArrayList<>();
+        for(ResourceSummary name : nameList) {
+            TypedQuery<ResourceEntity> entryQuery = em.createNamedQuery("ResourceEntity.findByNameAll", ResourceEntity.class);
+            entryQuery.setParameter("name", name.getName());
+            entryQuery.setParameter("directory", name.getDirectory());
+            entryQuery.setMaxResults(1);
+            List<ResourceEntity> entries = entryQuery.getResultList();
+            if (!entries.isEmpty()) {
+                res.add(entries.get(0));
+            }
+        };
+        return res;
     }
 }

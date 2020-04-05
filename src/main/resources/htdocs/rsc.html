@@ -19,6 +19,7 @@
 <body>
     <header class="sticky-top">
         <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="index.html" class="nav-link">Menu</a></li>
             <li class="nav-item"><a href="app.html" class="nav-link">バイナリ版数</a></li>
             <li class="nav-item"><a href="rsc.html" class="nav-link active">配布資産版数</a></li>
             <li class="nav-item"><a href="con.html" class="nav-link">関連表示</a></li>
@@ -30,50 +31,35 @@
             <tr>
                 <th>ID</th>
                 <th>環境</th>
-                <th>
-                    名称
-                    <a herf="#"><i class="fas fa-sort-alpha-down" style="color:lightgray;""></i></a>                        
-                </th>
+                <th>名称</th>
                 <th>版数</th>
                 <th>枝番</th>
                 <th>配布</th>
-                <th>
-                有効
-                <a herf=" #"><i class="fas fa-toggle-on" style="color:lightblue;""></i></i></a>
-                </th>
+                <th>有効</th>
                 <th>削除</th>
+                <th>関連</th>
             </tr>
         </thead>
-        <tbody>
-        <!-- <tr data-bind=" foreach: rscTbl">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr> -->
-        <tr>
-            <td>1</td>
-            <td>it</td>
-            <td>GAXXXX</td>
-            <td>20200401</td>
-            <td>0</td>
-            <td>未</td>
-            <td><input type="checkbox" data-toggle="toggle"></td>
-            <td><button class="btn btn-danger">削除</button></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>it</td>
-            <td>GAXXXX</td>
-            <td>20200401</td>
-            <td>1</td>
-            <td>2020-04-01 11:25:36 (成功)</td>
-            <td><input type="checkbox" checked data-toggle="toggle"></td>
-            <td><button class="btn btn-danger">削除</button></td>
-        </tr>
+        <tbody data-bind=" foreach: rscTbl">
+            <tr>
+                <td data-bind="text: id"></td>
+                <td data-bind="text: directory"></td>
+                <td><a href="#" data-bind="text: name, click: $root.clickName"></a></td>
+                <td data-bind="text: version"></td>
+                <td data-bind="text: branchNo"></td>
+                <td>
+                   <!-- ko if: delivered -->
+                   <span data-bind="text: deliverSuccess ? '成功' : '失敗'"></span>
+                   (<span data-bind="text: new Date(lastupdate)"></span>)
+                   <!-- /ko -->
+                   <!-- ko ifnot: delivered -->
+                   未配布
+                   <!-- /ko -->
+                </td>
+                <td><input type="checkbox" data-bind="checked: enabled, attr:{id: id}" data-toggle="toggle"></td>
+                <td><button class="btn btn-danger"><i class="far fa-trash-alt"></i></button></td>
+                <td><button type="button" class="btn btn-info"><i class="fas fa-project-diagram"></i></button></td>
+            </tr>
         </tbody>
     </table>
 
