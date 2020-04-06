@@ -1,6 +1,7 @@
 package com.example.jetty.resources;
 
 import com.example.jetty.entity.AppBinaryEntity;
+import com.example.jetty.entity.ResourceEntity;
 import com.example.jetty.logic.AppBinaryService;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -75,6 +76,23 @@ public class AppBinaryResource {
     public List<AppBinaryEntity> names() {
         try {
             return service.names();
+        } catch (Exception ex) {
+            log.error("ERROR", ex);
+            throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+    
+    @GET
+    @Path("/findContainedResource/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ResourceEntity> findContainedResource(@PathParam("id") Long id) {
+        try {
+            log.info("Find Contained Resources");
+            List<ResourceEntity> resourceArray = service.findContainedResourceById(id);
+            if (null == resourceArray) {
+                throw new WebApplicationException(HttpURLConnection.HTTP_NOT_FOUND);
+            }
+            return resourceArray;
         } catch (Exception ex) {
             log.error("ERROR", ex);
             throw new WebApplicationException(ex, HttpURLConnection.HTTP_BAD_REQUEST);

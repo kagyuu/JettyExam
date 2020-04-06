@@ -40,6 +40,10 @@ require([
             });
         };
         
+        vmdl.clickRelation = function(entry) {
+            location.href = "con.html?app=" + entry.id;
+        };
+        
         ajax.findAppLatest(function (response) {
             response.forEach(function(entry){
                 vmdl.appTbl.push(entry);

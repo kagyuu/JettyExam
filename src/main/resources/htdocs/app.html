@@ -43,7 +43,7 @@
                     <td data-bind="text: branchNo"></td>
                     <td><input type="checkbox" data-bind="checked: enabled, attr:{id: id}" data-toggle="toggle"></td>
                     <td><button class="btn btn-danger"><i class="far fa-trash-alt"></i></button></td>
-                    <td><button type="button" class="btn btn-info"><i class="fas fa-project-diagram"></i></button></td>
+                    <td><button type="button" class="btn btn-info" data-bind="click: $root.clickRelation"><i class="fas fa-project-diagram"></i></button></td>
                 </tr>
             </tbody>
         </table>

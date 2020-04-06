@@ -74,7 +74,7 @@ public class ResourceResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<AppBinaryEntity> findContainsAppBinaryById(@PathParam("id") Long id) {
         try {
-            log.info("Find Resource");
+            log.info("Find Contains AppBinaries");
             List<AppBinaryEntity> appBinaryArray = service.findContainsAppBinaryById(id);
             if (null == appBinaryArray) {
                 throw new WebApplicationException(HttpURLConnection.HTTP_NOT_FOUND);

@@ -2,6 +2,7 @@ package com.example.jetty.logic;
 
 import com.example.jetty.MyConst;
 import com.example.jetty.entity.AppBinaryEntity;
+import com.example.jetty.entity.ResourceEntity;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +74,19 @@ public class AppBinaryService implements Serializable {
         List<AppBinaryEntity> resultList = query.setMaxResults(1000).getResultList();
         
         return resultList;
+    }
+    
+    public List<ResourceEntity> findContainedResourceById(Long id) {
+        AppBinaryEntity appEntity = em.find(AppBinaryEntity.class, id);
+        if (null == appEntity) {
+            return null;
+        }
+
+        List<ResourceEntity> resourceEntityArray = new ArrayList<>();
+        appEntity.getContainedBy().forEach((joint) -> {
+            resourceEntityArray.add(joint.getResource());
+        });
+        return resourceEntityArray;
     }
 
     public AppBinaryEntity update(Long id, Map<String, Object> inJSON) throws Exception {

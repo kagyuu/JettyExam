@@ -40,6 +40,10 @@ require([
             });    
         };
         
+        vmdl.clickRelation = function(entry) {
+            location.href = "con.html?rsc=" + entry.id;
+        };
+        
         ajax.findRscLatest(function (response) {
             response.forEach(function (entry) {
                 vmdl.rscTbl.push(entry);
