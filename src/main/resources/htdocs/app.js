@@ -26,7 +26,6 @@ require([
     "bootstrap_toggle",
     "domReady!"
 ], function ($, ko, ajax) {
-    console.log(ajax);
     function ViewModel() {
         var vmdl = this;
         vmdl.appTbl = ko.observableArray();
@@ -44,10 +43,25 @@ require([
             location.href = "con.html?app=" + entry.id;
         };
         
+        vmdl.changeStatus = function(entry) {
+            // TODO: イベント実装
+            console.log(entry);
+        }
+        
+        vmdl.clickDelete = function(entry) {
+            // TODO: イベント実装
+            console.log(entry);
+        }
+        
         ajax.findAppLatest(function (response) {
+            console.log(response);
             response.forEach(function(entry){
                 vmdl.appTbl.push(entry);
-                $('#' + entry.id).bootstrapToggle();
+                // Bootstrap の toggle で checkbox を wrap しているので、knockout.js からイベントを取れない
+                $('#' + entry.id).bootstrapToggle().change(function() {
+                    entry.enabled = $(this).prop('checked');
+                    vmdl.changeStatus(entry);
+                });
             });
         });    
     }

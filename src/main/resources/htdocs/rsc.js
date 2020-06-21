@@ -44,10 +44,24 @@ require([
             location.href = "con.html?rsc=" + entry.id;
         };
         
+        vmdl.changeStatus = function(entry) {
+            // TODO: イベント実装
+            console.log(entry);
+        }
+        
+        vmdl.clickDelete = function(entry) {
+            // TODO: イベント実装
+            console.log(entry);
+        }
+        
         ajax.findRscLatest(function (response) {
             response.forEach(function (entry) {
                 vmdl.rscTbl.push(entry);
-                $('#' + entry.id).bootstrapToggle();
+                // Bootstrap の toggle で checkbox を wrap しているので、knockout.js からイベントを取れない
+                $('#' + entry.id).bootstrapToggle().change(function() {
+                    entry.enabled = $(this).prop('checked');
+                    vmdl.changeStatus(entry);
+                });
             });
         });
     }
